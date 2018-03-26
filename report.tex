@@ -2,9 +2,11 @@
 \usepackage{bm}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{booktabs}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
+\usepackage{stfloats}
 \usepackage{graphicx}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
@@ -14,9 +16,9 @@
 \title{Optimal Fishing Strategy Based on Scientific Outlook on Development}
 \author{
     Weitong~ZHANG, Yiwen~LU, Zifeng~KANG*
-    \thanks{Weitong~ZHANG 2015011493 Email: \texttt{WeightZero@outlook.com}}
-    \thanks{Yiwen~McF.~LU 2015011443 Email: \texttt{ylu.thu15@gmail.com}}
-    \thanks{Zifeng~KANG 2015011496 Email: \texttt{kangzf15@mails.tsinghua.edu.cn}}
+    \thanks{Weitong~ZHANG 2015011493  \texttt{WeightZero@outlook.com}}
+    \thanks{Yiwen~McF.~LU 2015011443  \texttt{ylu.thu15@gmail.com}}
+    \thanks{Zifeng~KANG 2015011496  \texttt{kangzf15@mails.tsinghua.edu.cn}}
 }
 \begin{document}
 \maketitle
@@ -29,25 +31,61 @@
 
 With the rapid growth of modern society and technology, the depletion of resources has brought about jarring problems to environmentalists, economists and policy makers, and even serious threats to the survival of human beings. Even today, in most countries, how to rationally develop and use resources still remains a vital issue that requires collaboration of country leaders with ordinary people.
 
-Fortunately, faced with this tough situation, leaders of Communist Party of China have proposed Scientific Concept of Development (SCD). The basic requirements of SCD are comprehensive, coordinated, and sustainable. In the light of SCD, development of our country aims to ensure profitability while maintain sustainability.
+Fortunately, faced with this tough situation, leaders of Communist Party of China have proposed Scientific Concept of Development (SOD). The basic requirements of SOD are comprehensive, coordinated, and sustainable. In the light of SOD, development of our country aims to ensure profitability while maintain sustainability.
 
-Thoughts of SCD are so inclusive and universal that we decided to apply them to fishery problems. As a renewable kind of resource, fish die and spawn hatch at a speed that we are able to calculate and predict. In order to provide practical advice to fishermen, previous studies have found that fixed-effort-capture strategy can both ensure profitability while maintain sustainability. We developed two state-of-the-art models in this paper.
+Thoughts of SOD are so inclusive and universal that we decide to apply them to fishery problems. As a renewable kind of resource, fish die and spawn hatch at a speed that we are able to calculate and predict, so it is feasible that we obtain satisfying strategy using these data. Furthermore, in order to provide practical advice to fishermen, previous studies have found that fixed-effort-harvest strategy may not only perform excellently in models or simulations, but have potential practical value as well. Yet among all such strategies, the gross yield can be extremely different, so there is still much work to do. 
+
+According to principles of SOD, we develop two state-of-the-art models in this paper and obtain optimal fixed-effort-harvest strategy that not only satisfies harsh requirements on the fishery contract but also makes a great deal of profit for the company. We further believe this strategy is also applicable in real life. 
 
 \section{Basic Assumptions}
 \subsection{Features of Fish}
 \begin{itemize}
 \item {The maturing time period of involved fish is exactly 4 years, which means when the next year arrives, alive spawns of the first year hatch into 1-aged fish and alive $i$-aged fish grow into $(i+1)$-aged fish($i=1,2,3$), while alive 4-aged fish remain 4-aged.}
-\item {Fish that share the same age are homogeneous, including weight, size, growth and spawning behavior and possibility to be captured.}
+\item {Fish that share the same age are homogeneous, including weight, size, growth and spawning behavior and possibility to be harvested.}
 \item {The amount of each fish group is continuously differentiable as a function of time.}
 \item {All fish die at all times at a constant speed, with a total annual natural fatal rate of 0.8 .}
 \item {All fish spawn instantaneously, and all spawns are homogeneous. }
 \end{itemize}
 
-\subsection{Features of Human Captures}
+\subsection{Features of Human Harvest}
 \begin{itemize}
-\item {Human capture fish at all times at a speed proportional to fish amount at that time. The proportion coefficient is called \textit{fishing intensity}.}
+\item {Human harvest fish at all times at a speed proportional to fish amount at that time. The proportion coefficient is called \textit{fishing intensity}.}
 \item {At the end of each year, if remaining fish of each group are not less than 80\% of saturation level, then in that year `fish productivity is not badly damaged'.}
 \end{itemize}
+
+\subsection{Notations}
+We will use the notations in Tab. \ref{notations} in the following modeling and optimizing.
+
+\begin{table}[h]
+    \centering
+    \caption{Notation table}
+    \label{notations}
+    \begin{tabular}{cc}
+        \toprule
+        Notation & Meaning \\ \midrule
+        $x$ & The number of a certain group of fish \\
+        $x_i$ & The number of $i$-aged fish \\
+        $\bm X, \bm x$ & The number of all 4 groups of fish, 4-d vector\\
+        $k$ & Fishing intensity of the 4-aged fish \\
+        $t$ & Time, starting from 0 with the unit of year \\
+        $\lambda$ & Rate of survival of fish, constant \\
+        $\pmb C$ & Fishing intensity parameters matrix, constant, $4 \times 4$ matrix\\
+        $\pmb D$ & Spawing parameters matrix, constant, $1 \times 4$ matrix\\
+        $\mu$ & Rate of spawing, constant \\
+        $\pmb T$ & Transform matrix of fish update, constant, $4 \times 4$ matrix\\
+        $\bm x'$ & The number of fish in the next year, 4-d vector\\
+        $\bm x_0, \bm X_0$ & The number of fish in the beginning of the year, 4-d vector\\
+        $\mathrm I$ & $4 \times 4$ identity matrix\\
+        $z$ & harvest in the next year\\
+        $Z$ & total harvest\\
+        $\Gamma$ & Penalty factor\\
+        $\bm X_s$ & The number of fish in saturation state\\
+        $\bm x_{sat,i}$ & The number of $i$-aged fish in saturation state\\
+        $\bm K$ & The intensity for 5 years, 5-d vector\\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
 \section{Model on Sustainable Harvesting} \label{model1}
 Owing to the annual death ratio is 0.8, we assume that the number of fish $x$ obeys the distribution eq. \ref{eq1}
 
@@ -66,17 +104,17 @@ We can use the differential equation eq. \ref{eq2} to describe the trend of the 
 
 \begin{align}
     \label{eq2}
-    -\frac{\mathrm d \bm x}{\mathrm d t} &= k \mathbf C \bm x + \lambda \bm x \\
-    \mathbf C &= \begin{pmatrix}0&0&0&0\\0&0&0&0\\0&0&0.42&0\\0&0&0&1\end{pmatrix}
+    -\frac{\mathrm d \bm x}{\mathrm d t} &= k \pmb C \bm x + \lambda \bm x \\
+    \pmb C &= \begin{pmatrix}0&0&0&0\\0&0&0&0\\0&0&0.42&0\\0&0&0&1\end{pmatrix}
 \end{align}
 \subsection{Model on the last four months}
 Set the number of eggs is $y$, and for each fish, we set the rate of spawning is $\mu$, i.e. $\frac {\mathrm d y_i}{\mathrm d t} = \mu$, where $y_i$ is the eggs spawned by a certain fish $i$. Then we get the following differential equation eq. \ref{eq3}
 
 \begin{align}
     \label{eq3}
-    \frac {\mathrm d y}{\mathrm d t} &= \mu \mathbf D \bm x\\
+    \frac {\mathrm d y}{\mathrm d t} &= \mu \pmb D \bm x\\
     -\frac{\mathrm d \bm x}{\mathrm d t} &=\lambda \bm x\\
-    \mathbf D &= \begin{pmatrix} 0 & 0 & 1.109\times10^5/2&1.109\times10^5\end{pmatrix}
+    \pmb D &= \begin{pmatrix} 0 & 0 & 1.109\times10^5/2&1.109\times10^5\end{pmatrix}
 \end{align}
 
 From the average spawning rate, we can get that $\mu = 3$.
@@ -88,9 +126,9 @@ After a year, some eggs spawned in the first year would be the 1-aged fish, acco
 \begin{align}
     \label{eq4}
     y &= 0\\
-    \bm x &= \mathbf T \bm x +\begin{pmatrix} f(y)&0&0&0\end{pmatrix}^{\mathrm T}\\
+    \bm x &= \pmb T \bm x +\begin{pmatrix} f(y)&0&0&0\end{pmatrix}^{\mathrm T}\\
     f(y) &= \frac{1.22\times 10 ^{11}y}{1.22\times 10 ^{11} + y}\\
-    \mathbf T &= \begin{pmatrix} 0 & 0 & 0 & 0 \\ 1& 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\0 & 0 & 1 & 1 \end{pmatrix}
+    \pmb T &= \begin{pmatrix} 0 & 0 & 0 & 0 \\ 1& 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\0 & 0 & 1 & 1 \end{pmatrix}
 \end{align}
 
 \subsection{Solve the function}
@@ -100,25 +138,23 @@ Now We can conclude all of the function above to solve the equation \ref{eq5} of
 \begin{align}
     \bm x' &= \bm x_0\\
     \label{eq5}
-    \bm x' &= \mathbf T \exp(-\frac{\mathbf A_2 + 2 \mathbf A_1}{3})\bm x_0 +\begin{pmatrix} f(\mathbf B \exp(-\frac{2\mathbf A_1}{3})\bm x_0)\\0\\0\\0\end{pmatrix}
+    \bm x' &= \pmb T \exp(-\frac{\pmb A_2 + 2 \pmb A_1}{3})\bm x_0 +\begin{pmatrix} f(\pmb B \exp(-\frac{2\pmb A_1}{3})\bm x_0)\\0\\0\\0\end{pmatrix}
 \end{align}
 \begin{align}
-    \mathbf A_1 &= k\mathbf C + \lambda \mathbf I\\
-    \mathbf A_2 &= \lambda \mathbf I\\
-    \mathbf B &= (\mu \mathbf D A_2^{-1}(\mathbf I - \exp(-\mathbf A_2/3)))
+    \pmb A_1 &= k\pmb C + \lambda \pmb I\\
+    \pmb A_2 &= \lambda \pmb I\\
+    \pmb B &= (\mu \pmb D A_2^{-1}(\pmb I - \exp(-\pmb A_2/3)))
 \end{align}
 
 Therefore, we can get the relationship between $\bm x$ and $k$ numerically.
 \subsection{Relation bewteen Harvest and Fishing Intensity}
 The total of harvest $z$ could be described as the following function eq. \ref{eq6}
-
 \begin{align}
     \label{eq6}
-    \frac {\mathrm dz}{\mathrm dt} &= k\mathbf C \vec x\\
-    z &= k\mathbf C\int_0^{2/3}\exp(-\mathbf A_1t)\mathrm dt\bm x_0 \\ 
-    &= k\mathbf C  A_1^{-1} (1-\exp(-2\mathbf A_1/3))\bm x_0
+    \frac {\mathrm dz}{\mathrm dt} &= k\pmb C \bm x\\
+    z &= k\pmb C\int_0^{2/3}\exp(-\pmb A_1t)\mathrm dt\bm x_0 \\ 
+    &= k\pmb C  A_1^{-1} (1-\exp(-2\pmb A_1/3))\bm x_0
 \end{align}
-
 where $\bm x_0$ would be the initial number of fish.
 
 
@@ -182,13 +218,11 @@ Therefore, the saturation of the number of fish should be described as eq. \ref{
 \subsubsection{Penalty I. Comparison with the saturation number of fish}
 
 It is obvious that it is a good idea to keep the number of the fish similar to the saturation one $\bm X_s$, therefore, we can design our object function as eq. \ref{eq9}
-
 \begin{align}
     \label{eq9}
     \Gamma &= \sigmoid(\frac{(\Theta^\mathrm T)(\bm X / \bm X_s - 0.8)}{\sigma})
 \end{align}
-
-Where $\sigma$ and $\Theta$ are designed manually, $\Theta$ is a $4 \times 1$ vector, and the division $\bm X / \bm X_s$ is the element-size devision. $\bm X$ and $Z$ could be calculate by symbolic computation in algorithm \ref{A1}
+where $\sigma$ and $\Theta$ are designed manually, $\Theta$ is a $4 \times 1$ vector, and the division $\bm X / \bm X_s$ is the element-size devision. $\bm X$ and $Z$ could be calculate by symbolic computation in algorithm \ref{A1}
 
 The sigmoid function should be described as eq. \ref{eq10}
 
@@ -266,9 +300,7 @@ Applying the model described in Part \ref{model2}, the optimization problem can 
 \end{aligned}\end{equation}
 
 In equation \ref{J}, $\boldsymbol{k}\in \mathbb{R}^5$ stands for the intensity in the five years, $M$ is a large coefficient for the penalty of over-fishing (chosen as $1.22\times 10^{11}$ in practice), and $g$ is a sigmoid function centered at 0.8:
-
 $$g(\lambda) = \frac1{1+ \exp(-k(\lambda - \lambda_0))}$$
-
 where $\lambda_0 = 0.8$ and $k$, representing the bandwidth of the sigmoid function, is experimentally determined as 100. A plot of $g$ is shown in Figure \ref{g}.
 
 \begin{figure}[h]
@@ -284,23 +316,14 @@ $$\boldsymbol{K}\leftarrow \boldsymbol{K} - \alpha \frac{\partial J}{\partial \b
 The process is repeated until convergence. In practice, the gradients are symbolically derived with SymPy, $\boldsymbol{K}_0$ is drawn from normal distribution $\mathcal{N}(10, 2^2)$, and the coefficient $\alpha$ is experimentally determined as $3\times 10^{-10}$. Random initialization is repeated for 10 times, all of which converge to essentially the same solution except for negligible numerical errors:
 
 \begin{equation}\label{K}\boldsymbol{K} = [18.59, 15.09, 17.77, 17.42, 17.56]\end{equation}
-
+    
 The identical convergence result gives us confidence that $\boldsymbol{K}$ in equation \ref{K} is a good approximation of the global optimal solution.
 
-The result may be intuitively explained as follows: based on the observation that the initial values for number of fishes are above the saturation values, the intensity adopted in the first year can be larger than the ``normal" values; the intensity is decreased in the second year to allow more fish to grow up; starting from the third year, a relatively steady state is reached, and therefore the intensity for the last three years remain stable. As a whole, the intensity values are larger than the result presented in Part \ref{result1}, since the requirement that ``the productive ability could not be bitterly destroyed" is slacker than the requirement of sustainable development.
-
-
-\subsection{Solution to the second problem using Harvest Penalty}
-
-In practice, we use genetic algorithm in MATLAB\textsuperscript\textregistered \ toolbox to optimize the object function with Harvest Penalty, i.e. eq. \ref{eq11}, eq. \ref{eq12}, the training process are showned in fig. \ref{fig1} (with short-term harvest penalty) and fig. \ref{fig2} (with long-term harvest penalty). We could find out that if we only take the short-term assessment, the best strategy is fish all of the fish in the 4\textsuperscript{th} year and give up fishing in the 5\textsuperscript{th} year. In this case, the 3-aged fish and 4-aged fish is extinct at the end of 4\textsuperscript{th}, at the beginning of 5\textsuperscript{th} year, the 4-aged fish is still extinct and the 3-aged is revitalized by the 2-aged fish in the 4\textsuperscript{th} year. At the end of 5\textsuperscript{th} year, there are much fewer egg for there are no 4-aged fish. As a result, in the 6\textsuperscript{th} year, the 3-aged fish and the 4-aged fish is just the same with the saturation one, however, the 1-aged fish is extinct (due to the extinction of eggs at the end of 5\textsuperscript{th} year). 
-
-In the above analysis, we can conclude that the short-term assesssment is not conceivable comparing to the long-term one. As for the long-term one, we can find out that the fishing intensity in the 1\textsuperscript{st} year is larger than the other 4 years, which is because the amount of fish in the beginning is a little bit larger than the saturation one, that means even if the fishing intensity is relatively low, the number of fish will surely decrease to the saturation one, or even lower. Thus, the splendid fishing strategy would contain a fierce fishing intensity in the first year, and a relatively average intensity in the following years. 
-
-Furthermore, the difference between the G.D. method using the penalty of the number of fish and the long-term harvest G.A. method is that the intensity of the first year is even more forcible than the G.A. method, as a trade-off, the intensity of the second year in G.D. method is a little bit lower than the G.A. method. Nevertheless, this two strategies are almost the same in the sum of harvest. 
+The result may be intuitively explained as follows: based on the observation that the initial values for number of fishes are above the saturation values, the intensity adopted in the first year can be larger than the ``normal'' values; the intensity is decreased in the second year to allow more fish to grow up; starting from the third year, a relatively steady state is reached, and therefore the intensity for the last three years remain stable. As a whole, the intensity values are larger than the result presented in Part \ref{result1}, since the requirement that ``the productive ability could not be bitterly destroyed'' is slacker than the requirement of sustainable development.
 
 \begin{figure}[h]
     \includegraphics[width=\columnwidth]{1GA.eps}
-\caption{Training process and other element provided by GA method based on short-term harvest}
+    \caption{Training process and other element provided by GA method based on short-term harvest}
     \label{fig1}
 \end{figure}
 \begin{figure}[h]
@@ -309,28 +332,49 @@ Furthermore, the difference between the G.D. method using the penalty of the num
     \label{fig2}
 \end{figure}
 
-To sum up, the fishing strategy and the sum of the harvest in 5 years according to the different object function could be summerized in the following table tab. \ref{tab1}
-
-\begin{table*}[!t]
+\begin{table*}
     \normalsize
     \caption{The fishing strategy and the sum of the harvest}
     \label{tab1}
-    \begin{tabular}{|c|c|c|c|c|c|c|}\hline
+    \begin{tabular}{ccccccc}\toprule
         Object function and method & $1^{st}$ year & $2^{nd}$ year & $3^{rd}$ year & $4^{nd}$ year & $5^{nd}$ year & Sum of harvest \\ 
-        \hline
-        Gradient Descent & & & & & &\\ \hline
-        Genetic Algorithm with Short-term assess & 17.3831 & 12.0797 & 9.4566 & 30.0000 & 0.0001 & \\ \hline
-        Genetic Algorithm with Long-term assess & 17.6717 & 14.1999 & 12.0285 & 11.4857 & 11.1067 & \\ \hline
-    \end{tabular}
-\vspace*{4pt} 
+        \midrule
+        Gradient Descent & 18.59 & 15.09 & 17.77 & 17.42 & 17.56 & $5.0257\times10^{11}$\\
+        Genetic Algorithm with Short-term Assessment & 17.3831 & 12.0797 & 9.4566 & 30.0000 & 0.0001 & $4.2920\times10^{11}$\\ 
+        Genetic Algorithm with Long-term Assessment & 17.6717 & 14.1999 & 12.0285 & 11.4857 & 11.1067 & $4.8420\times10^{11}$\\
+        \bottomrule
+    \end{tabular} 
 \end{table*}
 
+\subsection{Solution to the second problem using Harvest Penalty}
+
+In practice, we use genetic algorithm in MATLAB\textsuperscript\textregistered \ toolbox to optimize the object function with Harvest Penalty, i.e. eq. \ref{eq11}, eq. \ref{eq12}, the training process are showned in fig. \ref{fig1} (with short-term harvest penalty) and fig. \ref{fig2} (with long-term harvest penalty). We could find out that if we only take the short-term assessment, the best strategy is fish all of the fish in the 4\textsuperscript{th} year and give up fishing in the 5\textsuperscript{th} year. In this case, the 3-aged fish and 4-aged fish is extinct at the end of 4\textsuperscript{th}, at the beginning of 5\textsuperscript{th} year, the 4-aged fish is still extinct and the 3-aged is revitalized by the 2-aged fish in the 4\textsuperscript{th} year. At the end of 5\textsuperscript{th} year, there are much fewer egg for there are no 4-aged fish. As a result, in the 6\textsuperscript{th} year, the 3-aged fish and the 4-aged fish is just the same with the saturation one, however, the 1-aged fish is extinct (due to the extinction of eggs at the end of 5\textsuperscript{th} year). 
+
+In the above analysis, we can conclude that the short-term assesssment is not conceivable comparing to the long-term one. As for the long-term one, we can find out that the fishing intensity in the 1\textsuperscript{st} year is larger than the other 4 years, which is because the amount of fish in the beginning is a little bit larger than the saturation one, that means even if the fishing intensity is relatively low, the number of fish will surely decrease to the saturation one, or even lower. Thus, the splendid fishing strategy would contain a fierce fishing intensity in the first year, and a relatively average intensity in the following years. 
+
+To sum up, the fishing strategy and the sum of the harvest in 5 years according to the different object function could be summerized in the following table tab. \ref{tab1}
+
+Furthermore, the difference between the G.D. method using the penalty of the number of fish and the long-term harvest G.A. method is that the intensity of the first year is even more forcible than the G.A. method, as a trade-off, the intensity of the second year in G.D. method is a little bit lower than the G.A. method. Nevertheless, this two strategies are almost the same in the sum of harvest. 
 
 \section{Conclusion}
-from numpy import array 
-import sklearn
-import tensorflow as tf
-import pandas as pd
-import numpy as np
 
+From the first case, we can find out that the intensity of fishing and the total of harvest is not monotonous. Which is to say, a larger fishing intensity does not mean a larger harvest. Thus, the concept of scientific development is of exteremely important. In fact, the `fishing intensity'  in the model cannot be directly applied to the actual production activities. The accurate value of this intensity is also useless. In the actual activities, the fishermen should choose a apt intensity, which might be about $k = 15$ in our model to get a profitability and sustainability fishing environment.
+
+From the second case, we can conclude that in a relatively long-term operation of fishing, it is a wise idea to choose a time-varying fishing method. Though according to the different model and different optimizer, the accurate of fishing intensity is different, the total harvest would be about $4.5\sim 5.0 \times 10^{11}\mathrm g (4.8 \times 10^{11} \mathrm g)$ in our model. As mentioned above, the accurate number of intensity is meaningless, however, according to our model, there are two method for the fishermen to choose, which lead to almost the same result in the sum of the harvest.
+
+\begin{itemize}
+    \item {Choose a fierce fishing intensity in the first year, and take a short break on the second year, finally, finally, choose a `normal' intensity in the following years}
+    \item {Choose a fierce (but moderate than the first one) fishing intensity in the first year, and decrease the intensity year by year at a very low decreasing rate}
+\end{itemize}
+
+Though different from each other, these two strategy have something in common:
+
+\begin{itemize}
+    \item {Choose a fierce fishing intensity in the first year during to the over-saturation initial state}
+    \item {Choose a stable intensity in the last few years to get the stable and near saturation stable state}
+\end{itemize}
+
+All in all, we can conclude that the outlook of sustainable development is important and by making the fishing schdeule properly, fishermen tend to get more profit, while the environment is also benefit from this concept.
+
+By a logical extension of this point, we can conclude that the Scientific Outlook of Development will absolutely benefit both the production and environment with the properly modeling and optimizing of the problems in practive. Taking the saying of President Xi as the final conclusion: ``\textbf{\textit{While we want prosperity and wealth, we also want clear waters and green mountains. In fact, clear waters and green mountains can bring us prosperity and wealth.}}''
 \end{document}
