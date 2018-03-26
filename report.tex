@@ -24,7 +24,7 @@
 \maketitle
 
 \begin{abstract}
-    The SOD incorporates scientific socialism, sustainable development, social welfare, a humanistic society, increased democracy, and, ultimately, the creation of a Socialist Harmonious Society. According to official statements by the CPC, the concept integrates ``Marxism with the reality of contemporary China and with the underlying features of our times, and it fully embodies the Marxist worldview on and methodology for development."
+In order to preserve the natural environment human beings rely on to survive, renewable resources such as fishing resources must be moderately exploited. This article discusses the optimal fishing strategy subject to the constraint of sustainable harvesting, in terms of 1) keeping the number of fishes stable; 2) preserving the productivity after fishing for a given number of consecutive years. A number of criteria for evaluating the impact on productivity are proposed. The satisfaction of the first requirement is reduced to optimizing a univariate function. The satisfaction of the second requirement is formulated as optimizing a multivariate function, and different methods to solving the problem like gradient descent and genetic algorithm are discussed. A unified explanation for the results yielded by different algorithms is provided.
 \end{abstract}
 
 \section{Introduction}
@@ -72,8 +72,8 @@ We will use the notations in Tab. \ref{notations} in the following modeling and 
         $y$ & The number of egg\\
         $y_i$ & The number of egg spawned by a certain fish $i$\\ 
         $\pmb C$ & Fishing intensity parameters matrix, constant, $4 \times 4$ matrix\\
-        $\pmb D$ & Spawing parameters matrix, constant, $1 \times 4$ matrix\\
-        $\mu$ & Rate of spawing, constant \\
+        $\pmb D$ & Spawning parameters matrix, constant, $1 \times 4$ matrix\\
+        $\mu$ & Rate of spawning, constant \\
         $\pmb T$ & Transform matrix of fish update, constant, $4 \times 4$ matrix\\
         $\bm x'$ & The number of fish in the next year, 4-d vector\\
         $\bm x_0, \bm X_0$ & The number of fish in the beginning of the year, 4-d vector\\
@@ -159,12 +159,6 @@ The total of harvest $z$ could be described as the following function eq. \ref{e
 \end{align}
 where $\bm x_0$ would be the initial number of fish.
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%         RESULT FOR PART 1
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Model on five successive fishing}\label{model2}
 
 According to the analysis above, we can also calculate the number of fish $\bm x'$ in the next year by eq.\ref{eq5}, and we can also get the sum of the harvest $z$, let's set the relationship between them as eq. \ref{eq7}
@@ -262,7 +256,7 @@ The penalty mentioned above is focus on the changing of the numbers, however, it
 
     \item {Long Term Assess Method
         
-    According to the further analysis, however, the short term assess method do not sound like a good idea, which is because the productive ability described by this method cannot take the 1-aged fish and 2-aged fish into consideration for it is only consider the next year, when the 1-aged one and 2-aged one are not abot to spawn. Hence, we need to expand the short-term method into a relatively long-term method. For the reason that the periodic time of the fish is about 4 years, we use the 4-year-term should be better. The $\Gamma$ function should be desctibed as eq. \ref{eq12}, in which we calculate the total harvest by algorithm \ref{A1} (or a relatively similar algorithm) and set the result with the initial state $\bm X$ and intensity (which is constant during the 4 years) $k$ as $R(\bm X,k)$
+    According to the further analysis, however, the short term assess method do not sound like a good idea, which is because the productive ability described by this method cannot take the 1-aged fish and 2-aged fish into consideration for it is only consider the next year, when the 1-aged one and 2-aged one are not about to spawn. Hence, we need to expand the short-term method into a relatively long-term method. For the reason that the periodic time of the fish is about 4 years, we use the 4-year-term should be better. The $\Gamma$ function should be described as eq. \ref{eq12}, in which we calculate the total harvest by algorithm \ref{A1} (or a relatively similar algorithm) and set the result with the initial state $\bm X$ and intensity (which is constant during the 4 years) $k$ as $R(\bm X,k)$
     
     \begin{equation}
         \label{eq12}
@@ -274,7 +268,7 @@ The penalty mentioned above is focus on the changing of the numbers, however, it
         }
 \end{itemize}
 
-For the two $\Gamma$ function based on harvest mentioned above, the optimization based on gradient might not sound like a good idea, therefore, we use MATLAB\textsuperscript\textregistered \ toolbox\textsuperscript{\cite{MATLABOptimizationToolbox}} to solve this problems. By using functions like fmincon (which is based on the calculated gradient), and GA (which completely treat the object function as a blackbox), the optimization process performs well and generate the result just like we want.
+For the two $\Gamma$ function based on harvest mentioned above, the optimization based on gradient might not sound like a good idea, therefore, we use MATLAB\textsuperscript\textregistered \ toolbox\textsuperscript{\cite{MATLABOptimizationToolbox}} to solve this problems. By using functions like \texttt{fmincon} (which is based on the calculated gradient), and GA (which completely treat the object function as a blackbox), the optimization process performs well and generate the result just like we want.
 
 \section{Result}
 
@@ -352,7 +346,7 @@ The result may be intuitively explained as follows: based on the observation tha
 
 In practice, we use genetic algorithm in MATLAB\textsuperscript\textregistered \ toolbox\textsuperscript{\cite{MATLABOptimizationToolbox}} to optimize the object function with Harvest Penalty, i.e. eq. \ref{eq11}, eq. \ref{eq12}, the training process are showned in fig. \ref{fig1} (with short-term harvest penalty) and fig. \ref{fig2} (with long-term harvest penalty). We could find out that if we only take the short-term assessment, the best strategy is fish all of the fish in the 4\textsuperscript{th} year and give up fishing in the 5\textsuperscript{th} year. In this case, the 3-aged fish and 4-aged fish is extinct at the end of 4\textsuperscript{th}, at the beginning of 5\textsuperscript{th} year, the 4-aged fish is still extinct and the 3-aged is revitalized by the 2-aged fish in the 4\textsuperscript{th} year. At the end of 5\textsuperscript{th} year, there are much fewer egg for there are no 4-aged fish. As a result, in the 6\textsuperscript{th} year, the 3-aged fish and the 4-aged fish is just the same with the saturation one, however, the 1-aged fish is extinct (due to the extinction of eggs at the end of 5\textsuperscript{th} year). 
 
-In the above analysis, we can conclude that the short-term assesssment is not conceivable comparing to the long-term one. As for the long-term one, we can find out that the fishing intensity in the 1\textsuperscript{st} year is larger than the other 4 years, which is because the amount of fish in the beginning is a little bit larger than the saturation one, that means even if the fishing intensity is relatively low, the number of fish will surely decrease to the saturation one, or even lower. Thus, the splendid fishing strategy would contain a fierce fishing intensity in the first year, and a relatively average intensity in the following years. 
+In the above analysis, we can conclude that the short-term assessment is not conceivable comparing to the long-term one. As for the long-term one, we can find out that the fishing intensity in the 1\textsuperscript{st} year is larger than the other 4 years, which is because the amount of fish in the beginning is a little bit larger than the saturation one, that means even if the fishing intensity is relatively low, the number of fish will surely decrease to the saturation one, or even lower. Thus, the splendid fishing strategy would contain a fierce fishing intensity in the first year, and a relatively average intensity in the following years. 
 
 To sum up, the fishing strategy and the sum of the harvest in 5 years according to the different object function could be summerized in the following tab. \ref{tab1}
 
@@ -376,11 +370,11 @@ Though different from each other, these two strategy have something in common:
     \item {Choose a stable intensity in the last few years to get the stable and near saturation stable state}
 \end{itemize}
 
-All in all, we can conclude that the outlook of sustainable development is important and by making the fishing schdeule properly, fishermen tend to get more profit, while the environment is also benefit from this concept.
+All in all, we can conclude that the outlook of sustainable development is important and by making the fishing schedule properly, fishermen tend to get more profit, while the environment is also benefit from this concept.
 
-By a logical extension of this point, we can conclude that the Scientific Outlook of Development will absolutely benefit both the production and environment with the properly modeling and optimizing of the problems in practive. Taking the saying of President Xi as the final conclusion: ``\textbf{\textit{While we want prosperity and wealth, we also want clear waters and green mountains. In fact, clear waters and green mountains can bring us prosperity and wealth.}}''
+By a logical extension of this point, we can conclude that the Scientific Outlook of Development will absolutely benefit both the production and environment with the properly modeling and optimizing of the problems in practice. Taking the saying of President Xi as the final conclusion: ``\textbf{\textit{While we want prosperity and wealth, we also want clear waters and green mountains. In fact, clear waters and green mountains can bring us prosperity and wealth.}}''
 
-\section*{Acknowledgement}
+
 \bibliographystyle{ieeetran}
 \bibliography{reference}
 \end{document}
