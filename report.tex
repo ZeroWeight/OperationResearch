@@ -127,7 +127,7 @@ where $\bm x_0$ would be the initial number of fish.
 %         RESULT FOR PART 1
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Model on five successive fishing}
+\section{Model on five successive fishing}\label{model2}
 
 According to the analysis above, we can also calculate the number of fish $\bm x'$ in the next year by eq.\ref{eq5}, and we can also get the sum of the harvest $z$, let's set the relationship between them as eq. \ref{eq7}
 
@@ -145,8 +145,8 @@ Therefore, the total harvest and the number of fish remaining after 5 years coul
         \Ensure Sum of harvest $Z$ and the number of fish after 5 years $\bm X$
         \State Let $\bm X = \bm X_0, Z = 0$
         \For{$i$ in $[1,\cdots,5]$}
-        \State $Z \Leftarrow Z + G(\bm X,\bm K_i)$
-        \State $\bm X \Leftarrow F(\bm X, \bm K_i)$
+        \State $Z \leftarrow Z + G(\bm X,\bm K_i)$
+        \State $\bm X \leftarrow F(\bm X, \bm K_i)$
         \EndFor
     \State \Return $Z$ and $\bm X$
     \end{algorithmic}
@@ -242,7 +242,7 @@ For the two $\Gamma$ function based on harvest mentioned above, the optimization
 
 \section{Result}
 
-\subsection{Solution to the first problem}
+\subsection{Solution to the first problem}\label{result1}
 
 Applying the model described in Part \ref{model1}, under the constraint of sustainable harvesting, the annual harvest $z$ can be represented as a function w.r.t. the fishing intensity of 4-aged fish $k$. The analytical expression is derived with SymPy \footnote{Joyner, D., Certik, O., Meurer, A., \& Granger, B. E. (2012). Open source computer algebra systems: \textit{SymPy. ACM Communications in Computer Algebra, 45}(3/4), 225-234.}. The function is numerically plotted in Figure \ref{plot1}. Note that $z$ is meaningful if and only if $z>0$, and thus the feasible region of $k$ is automatically determined.
 
@@ -257,6 +257,40 @@ The relationship between $z$ and $k$ is not monotonous, which agrees with our in
 $$\begin{cases}\argmax\limits_k z(k) \approx 14.09\\\max\limits_k z(k) \approx 6.49\times 10^{10} \end{cases}$$
 
 \subsection{Solution to the second problem using Gradient Descent}
+
+Applying the model described in Part \ref{model2}, the optimization problem can be formulated as follows:
+
+\begin{equation}\begin{aligned}
+	\label{J}
+	\min\limits_{ \boldsymbol{K}} J(\boldsymbol{K}) = -z( \boldsymbol{K}) - M \sum\limits_{i=1}^4 g(\frac{x_i}{x_{ \mathrm{sat}, i}})
+\end{aligned}\end{equation}
+
+In equation \ref{J}, $\boldsymbol{k}\in \mathbb{R}^5$ stands for the intensity in the five years, $M$ is a large coefficient for the penalty of over-fishing (chosen as $1.22\times 10^{11}$ in practice), and $g$ is a sigmoid function centered at 0.8:
+
+$$g(\lambda) = \frac1{1+ \exp(-k(\lambda - \lambda_0))}$$
+
+where $\lambda_0 = 0.8$ and $k$, representing the bandwidth of the sigmoid function, is experimentally determined as 100. A plot of $g$ is shown in Figure \ref{g}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.6\columnwidth]{g}
+	\caption{The smooth thresholding function used for penalty of over-fishing\label{g}}
+\end{figure}
+
+Since $J$ defined in equation \ref{J} is differentiable w.r.t. all elements of $\boldsymbol{K}$, it can be optimized using gradient descent: $\boldsymbol{K}$ is initialized to a random vector $\boldsymbol{K}_0$, and in each iteration:
+
+$$\boldsymbol{K}\leftarrow \boldsymbol{K} - \alpha \frac{\partial J}{\partial \boldsymbol{K}}$$
+
+The process is repeated until convergence. In practice, the gradients are symbolically derived with SymPy, $\boldsymbol{K}_0$ is drawn from normal distribution $\mathcal{N}(10, 2^2)$, and the coefficient $\alpha$ is experimentally determined as $3\times 10^{-10}$. Random initialization is repeated for 10 times, all of which converge to essentially the same solution except for negligible numerical errors:
+
+\begin{equation}\label{K}\boldsymbol{K} = [18.59, 15.09, 17.77, 17.42, 17.56]\end{equation}
+
+The identical convergence result gives us confidence that $\boldsymbol{K}$ in equation \ref{K} is a good approximation of the global optimal solution.
+
+The result may be intuitively explained as follows: based on the observation that the initial values for number of fishes are above the saturation values, the intensity adopted in the first year can be larger than the ``normal" values; the intensity is decreased in the second year to allow more fish to grow up; starting from the third year, a relatively steady state is reached, and therefore the intensity for the last three years remain stable. As a whole, the intensity values are larger than the result presented in Part \ref{result1}, since the requirement that ``the productive ability could not be bitterly destroyed" is slacker than the requirement of sustainable development.
+
+
+
 \subsection{Solution to the second problem using other Optimizer}
 17.3831   12.0797    9.4566   30.0000    0.0001
 17.6717   14.1999   12.0285   11.4857   11.1067
