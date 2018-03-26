@@ -11,18 +11,18 @@
 \DeclareMathOperator*{\sigmoid}{sigmoid}
 
 \renewcommand{\IEEEQED}{\IEEEQEDclosed}
-\title{Optimal Fishing Strategy Based on Scientific Concept of Development}
+\title{Optimal Fishing Strategy Based on Scientific Outlook on Development}
 \author{
     Weitong~ZHANG, Yiwen~LU, Zifeng~KANG*
     \thanks{Weitong~ZHANG 2015011493 Email: \texttt{WeightZero@outlook.com}}
     \thanks{Yiwen~McF.~LU 2015011443 Email: \texttt{ylu.thu15@gmail.com}}
-    \thanks{Zifeng~KANG 2015011??? Email: \texttt{scikit-learn@python.org}}
+    \thanks{Zifeng~KANG 2015011496 Email: \texttt{kangzf15@mails.tsinghua.edu.cn}}
 }
 \begin{document}
 \maketitle
 
 \begin{abstract}
-    The SOD incorporates scientific socialism, sustainable development, social welfare, a humanistic society, increased democracy, and, ultimately, the creation of a Socialist Harmonious Society. According to official statements by the CPC, the concept integrates "Marxism with the reality of contemporary China and with the underlying features of our times, and it fully embodies the Marxist worldview on and methodology for development."
+    The SOD incorporates scientific socialism, sustainable development, social welfare, a humanistic society, increased democracy, and, ultimately, the creation of a Socialist Harmonious Society. According to official statements by the CPC, the concept integrates ``Marxism with the reality of contemporary China and with the underlying features of our times, and it fully embodies the Marxist worldview on and methodology for development."
 \end{abstract}
 
 \section{Introduction}
@@ -290,9 +290,47 @@ The identical convergence result gives us confidence that $\boldsymbol{K}$ in eq
 The result may be intuitively explained as follows: based on the observation that the initial values for number of fishes are above the saturation values, the intensity adopted in the first year can be larger than the ``normal" values; the intensity is decreased in the second year to allow more fish to grow up; starting from the third year, a relatively steady state is reached, and therefore the intensity for the last three years remain stable. As a whole, the intensity values are larger than the result presented in Part \ref{result1}, since the requirement that ``the productive ability could not be bitterly destroyed" is slacker than the requirement of sustainable development.
 
 
+\subsection{Solution to the second problem using Harvest Penalty}
 
-\subsection{Solution to the second problem using other Optimizer}
-17.3831   12.0797    9.4566   30.0000    0.0001
-17.6717   14.1999   12.0285   11.4857   11.1067
+In practice, we use genetic algorithm in MATLAB\textsuperscript\textregistered \ toolbox to optimize the object function with Harvest Penalty, i.e. eq. \ref{eq11}, eq. \ref{eq12}, the training process are showned in fig. \ref{fig1} (with short-term harvest penalty) and fig. \ref{fig2} (with long-term harvest penalty). We could find out that if we only take the short-term assessment, the best strategy is fish all of the fish in the 4\textsuperscript{th} year and give up fishing in the 5\textsuperscript{th} year. In this case, the 3-aged fish and 4-aged fish is extinct at the end of 4\textsuperscript{th}, at the beginning of 5\textsuperscript{th} year, the 4-aged fish is still extinct and the 3-aged is revitalized by the 2-aged fish in the 4\textsuperscript{th} year. At the end of 5\textsuperscript{th} year, there are much fewer egg for there are no 4-aged fish. As a result, in the 6\textsuperscript{th} year, the 3-aged fish and the 4-aged fish is just the same with the saturation one, however, the 1-aged fish is extinct (due to the extinction of eggs at the end of 5\textsuperscript{th} year). 
+
+In the above analysis, we can conclude that the short-term assesssment is not conceivable comparing to the long-term one. As for the long-term one, we can find out that the fishing intensity in the 1\textsuperscript{st} year is larger than the other 4 years, which is because the amount of fish in the beginning is a little bit larger than the saturation one, that means even if the fishing intensity is relatively low, the number of fish will surely decrease to the saturation one, or even lower. Thus, the splendid fishing strategy would contain a fierce fishing intensity in the first year, and a relatively average intensity in the following years. 
+
+Furthermore, the difference between the G.D. method using the penalty of the number of fish and the long-term harvest G.A. method is that the intensity of the first year is even more forcible than the G.A. method, as a trade-off, the intensity of the second year in G.D. method is a little bit lower than the G.A. method. Nevertheless, this two strategies are almost the same in the sum of harvest. 
+
+\begin{figure}[h]
+    \includegraphics[width=\columnwidth]{1GA.eps}
+\caption{Training process and other element provided by GA method based on short-term harvest}
+    \label{fig1}
+\end{figure}
+\begin{figure}[h]
+    \includegraphics[width=\columnwidth]{2GA.eps}
+    \caption{Training process and other element provided by GA method based on long-term harvest}
+    \label{fig2}
+\end{figure}
+
+To sum up, the fishing strategy and the sum of the harvest in 5 years according to the different object function could be summerized in the following table tab. \ref{tab1}
+
+\begin{table*}[!t]
+    \normalsize
+    \caption{The fishing strategy and the sum of the harvest}
+    \label{tab1}
+    \begin{tabular}{|c|c|c|c|c|c|c|}\hline
+        Object function and method & $1^{st}$ year & $2^{nd}$ year & $3^{rd}$ year & $4^{nd}$ year & $5^{nd}$ year & Sum of harvest \\ 
+        \hline
+        Gradient Descent & & & & & &\\ \hline
+        Genetic Algorithm with Short-term assess & 17.3831 & 12.0797 & 9.4566 & 30.0000 & 0.0001 & \\ \hline
+        Genetic Algorithm with Long-term assess & 17.6717 & 14.1999 & 12.0285 & 11.4857 & 11.1067 & \\ \hline
+    \end{tabular}
+\vspace*{4pt} 
+\end{table*}
+
+
 \section{Conclusion}
+from numpy import array 
+import sklearn
+import tensorflow as tf
+import pandas as pd
+import numpy as np
+
 \end{document}
