@@ -5,13 +5,17 @@
 \usepackage{algorithm}
 \usepackage{algorithmicx}
 \usepackage{algpseudocode}
+\usepackage{graphicx}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
 \renewcommand{\IEEEQED}{\IEEEQEDclosed}
 \title{Optimal Fishing Strategy Based on Scientific Concept of Development}
 \author{
     Weitong~ZHANG, Yiwen~LU, Zifeng~KANG*
-    \thanks{Weitong~ZHANG 2015011493 Email: zwt15@mails.tsinghua.edu.cn}
-    \thanks{Yiwen~McF.~LU 2015011443 Email: ylu.thu15@gmail.com}
-    \thanks{Zifeng~KANG 2015011??? Email: sklearn@python.org}
+    \thanks{Weitong~ZHANG 2015011493 Email: \texttt{WeightZero@outlook.com}}
+    \thanks{Yiwen~McF.~LU 2015011443 Email: \texttt{ylu.thu15@gmail.com}}
+    \thanks{Zifeng~KANG 2015011??? Email: \texttt{scikit-learn@python.org}}
 }
 \begin{document}
 \maketitle
@@ -21,9 +25,29 @@
 \end{abstract}
 
 \section{Introduction}
-\section{Basic Assumptions}
-\section{Model on Sustainable Harvasting}
 
+With the rapid growth of modern society and technology, the depletion of resources has brought about jarring problems to environmentalists, economists and policy makers, and even serious threats to the survival of human beings. Even today, in most countries, how to rationally develop and use resources still remains a vital issue that requires collaboration of country leaders with ordinary people.
+
+Fortunately, faced with this tough situation, leaders of Communist Party of China have proposed Scientific Concept of Development (SCD). The basic requirements of SCD are comprehensive, coordinated, and sustainable. In the light of SCD, development of our country aims to ensure profitability while maintain sustainability.
+
+Thoughts of SCD are so inclusive and universal that we decided to apply them to fishery problems. As a renewable kind of resource, fish die and spawn hatch at a speed that we are able to calculate and predict. In order to provide practical advice to fishermen, previous studies have found that fixed-effort-capture strategy can both ensure profitability while maintain sustainability. We developed two state-of-the-art models in this paper.
+
+\section{Basic Assumptions}
+\subsection{Features of Fish}
+\begin{itemize}
+\item {The maturing time period of involved fish is exactly 4 years, which means when the next year arrives, alive spawns of the first year hatch into 1-instar fish and alive $i$-instar fish grow into $(i+1)$-instar fish($i=1,2,3$), while alive 4-instar fish remain 4-instar.}
+\item {Fish that share the same instar are homogeneous, including weight, size, growth and spawning behavior and possibility to be captured.}
+\item {The amount of each fish group is continuously differentiable as a function of time.}
+\item {All fish die at all times at a constant speed, with a total annual natural fatal rate of 0.8 .}
+\item {All fish spawn instantaneously, and all spawns are homogeneous. }
+\end{itemize}
+
+\subsection{Features of Human Captures}
+\begin{itemize}
+\item {Human capture fish at all times at a speed proportional to fish amount at that time. The proportion coefficient is called \textbf{fishing intensity}.}
+\item {At the end of each year, if remaining fish of each group are not less than 80\% of saturation level, then in that year `fish productivity is not badly damaged'.}
+\end{itemize}
+\section{Model on Sustainable Harvesting} \label{model1}
 Owing to the annual death ratio is 0.8, we assume that the number of fish $x$ obeys the distribution eq. \ref{eq1}
 
 \begin{equation}
@@ -217,8 +241,25 @@ The penalty mentioned above is focus on the changing of the numbers, however, it
 \end{itemize}
 
 For the two $\Gamma$ function based on harvest mentioned above, the optimization based on gradient might not sound like a good idea, therefore, we use MATLAB\textsuperscript\textregistered \ toolbox to solve this problems. By using functions like fmincon (which is based on the calculated gradient), and GA (which completely treat the object function as a blackbox), the optimization process performs well and generate the result just like we want.
+
+\section{Result}
+
+\subsection{Solution to the first problem}
+
+Applying the model described in Part \ref{model1}, under the constraint of sustainable harvesting, the annual harvest $z$ can be plotted in terms of the fishing intensity of 4-aged fish $k$, as is shown in Figure \ref{plot1}. Note that $z$ is meaningful if and only if $z>0$, and thus the feasible region of $k$ is automatically determined.
+
+\begin{figure}[h]
+	\includegraphics[width=\columnwidth]{plot1}
+	\caption{The relationship between annual harvest $z$ and fishing intensity $k$\label{plot1}}
+\end{figure}
+
+The relationship between $z$ and $k$ is not monotonous, which agrees with our intuition: when $k$ is too small, the fishing intensity is too small to exploit the resources; when $k$ is too large, the number of fishes in the steady state is decreased, affecting the harvest. By performing a linear search on $k$, the optimal fishing strategy can be determined:
+
+$$\begin{cases}\argmax\limits_k z(k) \approx 13.41\\\max\limits_k z(k) \approx 6.39\times 10^{10} \end{cases}$$
+
+\subsection{Solution to the second problem using Gradient Descent}
+\subsection{Solution to the second problem using other Optimizer}
 17.3831   12.0797    9.4566   30.0000    0.0001
 17.6717   14.1999   12.0285   11.4857   11.1067
-\section{Result}
 \section{Conclusion}
 \end{document}

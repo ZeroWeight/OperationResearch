@@ -1,10 +1,3 @@
-\documentclass{IEEEtran}
-\usepackage{bm}
-\usepackage{amsmath}
-\usepackage{graphicx}
-\usepackage{amsmath}
-\DeclareMathOperator*{\argmax}{arg\,max}
-\DeclareMathOperator*{\argmin}{arg\,min}
 \renewcommand{\IEEEQED}{\IEEEQEDclosed}
 \title{Optimal Fishing Strategy Based on Scientific Concept of Development}
 \author{
@@ -22,7 +15,7 @@
 
 \section{Introduction}
 \section{Basic Assumptions}
-\section{Model on Sustainable Harvesting} \label{model1}
+
 
 Owing to the annual death ratio is 0.8, we assume that the number of fish $x$ obeys the distribution eq. \ref{eq1}
 
@@ -107,22 +100,7 @@ By numerical method, we can get the final relationship between the $k$ and the t
 \section{Model on five successive fishing}
 
 According to the 
-\section{Result}
 
-\subsection{Solution to the first problem}
-
-Applying the model described in Part \ref{model1}, under the constraint of sustainable harvesting, the annual harvest $z$ can be plotted in terms of the fishing intensity of 4-aged fish $k$, as is shown in Figure \ref{plot1}. Note that $z$ is meaningful if and only if $z>0$, and thus the feasible region of $k$ is automatically determined.
-
-\begin{figure}[h]
-	\includegraphics[width=\columnwidth]{plot1}
-	\caption{The relationship between annual harvest $z$ and fishing intensity $k$\label{plot1}}
-\end{figure}
-
-The relationship between $z$ and $k$ is not monotonous, which agrees with our intuition: when $k$ is too small, the fishing intensity is too small to exploit the resources; when $k$ is too large, the number of fishes in the steady state is decreased, affecting the harvest. By performing a linear search on $k$, the optimal fishing strategy can be determined:
-
-$$\begin{cases}\argmax\limits_k z(k) \approx 13.41\\\max\limits_k z(k) \approx 6.39\times 10^{10} \end{cases}$$
-
-\subsection{Solution to the second problem}
 
 
 
