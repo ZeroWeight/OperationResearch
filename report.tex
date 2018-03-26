@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\sigmoid}{sigmoid}
 
 \renewcommand{\IEEEQED}{\IEEEQEDclosed}
 \title{Optimal Fishing Strategy Based on Scientific Concept of Development}
@@ -35,8 +36,8 @@ Thoughts of SCD are so inclusive and universal that we decided to apply them to 
 \section{Basic Assumptions}
 \subsection{Features of Fish}
 \begin{itemize}
-\item {The maturing time period of involved fish is exactly 4 years, which means when the next year arrives, alive spawns of the first year hatch into 1-instar fish and alive $i$-instar fish grow into $(i+1)$-instar fish($i=1,2,3$), while alive 4-instar fish remain 4-instar.}
-\item {Fish that share the same instar are homogeneous, including weight, size, growth and spawning behavior and possibility to be captured.}
+\item {The maturing time period of involved fish is exactly 4 years, which means when the next year arrives, alive spawns of the first year hatch into 1-aged fish and alive $i$-aged fish grow into $(i+1)$-aged fish($i=1,2,3$), while alive 4-aged fish remain 4-aged.}
+\item {Fish that share the same age are homogeneous, including weight, size, growth and spawning behavior and possibility to be captured.}
 \item {The amount of each fish group is continuously differentiable as a function of time.}
 \item {All fish die at all times at a constant speed, with a total annual natural fatal rate of 0.8 .}
 \item {All fish spawn instantaneously, and all spawns are homogeneous. }
@@ -44,7 +45,7 @@ Thoughts of SCD are so inclusive and universal that we decided to apply them to 
 
 \subsection{Features of Human Captures}
 \begin{itemize}
-\item {Human capture fish at all times at a speed proportional to fish amount at that time. The proportion coefficient is called \textbf{fishing intensity}.}
+\item {Human capture fish at all times at a speed proportional to fish amount at that time. The proportion coefficient is called \textit{fishing intensity}.}
 \item {At the end of each year, if remaining fish of each group are not less than 80\% of saturation level, then in that year `fish productivity is not badly damaged'.}
 \end{itemize}
 \section{Model on Sustainable Harvesting} \label{model1}
@@ -59,7 +60,7 @@ while the unit of $t$ is year, we get $\lambda = \ln 5, \frac{\mathrm dx}{\mathr
 
 Setting the fishing intensity of 4-aged fish to be $k$, we can get the one of 3-aged fish is $0.42k$, while the number of the four group of fish could be described as a 4-d vector $\bm x$ .
 
-\subsection{Model on the first eight years}
+\subsection{Model on the first eight months}
 
 We can use the differential equation eq. \ref{eq2} to describe the trend of the number of fish in each group
 
@@ -68,7 +69,7 @@ We can use the differential equation eq. \ref{eq2} to describe the trend of the 
     -\frac{\mathrm d \bm x}{\mathrm d t} &= k \mathbf C \bm x + \lambda \bm x \\
     \mathbf C &= \begin{pmatrix}0&0&0&0\\0&0&0&0\\0&0&0.42&0\\0&0&0&1\end{pmatrix}
 \end{align}
-\subsection{Model on the last four month}
+\subsection{Model on the last four months}
 Set the number of eggs is $y$, and for each fish, we set the rate of spawning is $\mu$, i.e. $\frac {\mathrm d y_i}{\mathrm d t} = \mu$, where $y_i$ is the eggs spawned by a certain fish $i$. Then we get the following differential equation eq. \ref{eq3}
 
 \begin{align}
@@ -99,7 +100,7 @@ Now We can conclude all of the function above to solve the equation \ref{eq5} of
 \begin{align}
     \bm x' &= \bm x_0\\
     \label{eq5}
-    \bm x' &= \mathbf T \exp(-\frac{\mathbf A_2 + 2 \mathbf A_1}{3})\bm x_0 +\begin{pmatrix} f(\mathbf B \exp(-\frac{2\mathbf A_1}{3})\bm x_0)&0&0&0\end{pmatrix}^{\mathrm T}
+    \bm x' &= \mathbf T \exp(-\frac{\mathbf A_2 + 2 \mathbf A_1}{3})\bm x_0 +\begin{pmatrix} f(\mathbf B \exp(-\frac{2\mathbf A_1}{3})\bm x_0)\\0\\0\\0\end{pmatrix}
 \end{align}
 \begin{align}
     \mathbf A_1 &= k\mathbf C + \lambda \mathbf I\\
@@ -120,9 +121,6 @@ The total of harvest $z$ could be described as the following function eq. \ref{e
 
 where $\bm x_0$ would be the initial number of fish.
 
-\subsection{Numerical result and Optimize $k$ for maximizing $z$}
-
-By numerical method, we can get the final relationship between the $k$ and the total harvest $z$, which could be plotted as ...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -187,7 +185,7 @@ It is obvious that it is a good idea to keep the number of the fish similar to t
 
 \begin{align}
     \label{eq9}
-    \Gamma &= sigmoid(\frac{(\Theta^\mathrm T)(\bm X / \bm X_s - 0.8)}{\sigma})
+    \Gamma &= \sigmoid(\frac{(\Theta^\mathrm T)(\bm X / \bm X_s - 0.8)}{\sigma})
 \end{align}
 
 Where $\sigma$ and $\Theta$ are designed manually, $\Theta$ is a $4 \times 1$ vector, and the division $\bm X / \bm X_s$ is the element-size devision. $\bm X$ and $Z$ could be calculate by symbolic computation in algorithm \ref{A1}
@@ -196,7 +194,7 @@ The sigmoid function should be described as eq. \ref{eq10}
 
 \begin{equation}
     \label{eq10}
-    sigmoid(x) \triangleq \frac1{1 + \exp(-x)}
+    \sigmoid(x) \triangleq \frac1{1 + \exp(-x)}
 \end{equation}
 
 We are about to maximize the $H(\bm K)$, and it is obvious that if the final number of fish $\bm X$ is much closer to $\bm X_s$, the $H(\bm K)$ would be also increasing.
@@ -246,16 +244,17 @@ For the two $\Gamma$ function based on harvest mentioned above, the optimization
 
 \subsection{Solution to the first problem}
 
-Applying the model described in Part \ref{model1}, under the constraint of sustainable harvesting, the annual harvest $z$ can be plotted in terms of the fishing intensity of 4-aged fish $k$, as is shown in Figure \ref{plot1}. Note that $z$ is meaningful if and only if $z>0$, and thus the feasible region of $k$ is automatically determined.
+Applying the model described in Part \ref{model1}, under the constraint of sustainable harvesting, the annual harvest $z$ can be represented as a function w.r.t. the fishing intensity of 4-aged fish $k$. The analytical expression is derived with SymPy \footnote{Joyner, D., Certik, O., Meurer, A., \& Granger, B. E. (2012). Open source computer algebra systems: \textit{SymPy. ACM Communications in Computer Algebra, 45}(3/4), 225-234.}. The function is numerically plotted in Figure \ref{plot1}. Note that $z$ is meaningful if and only if $z>0$, and thus the feasible region of $k$ is automatically determined.
 
 \begin{figure}[h]
+	\centering
 	\includegraphics[width=\columnwidth]{plot1}
 	\caption{The relationship between annual harvest $z$ and fishing intensity $k$\label{plot1}}
 \end{figure}
 
 The relationship between $z$ and $k$ is not monotonous, which agrees with our intuition: when $k$ is too small, the fishing intensity is too small to exploit the resources; when $k$ is too large, the number of fishes in the steady state is decreased, affecting the harvest. By performing a linear search on $k$, the optimal fishing strategy can be determined:
 
-$$\begin{cases}\argmax\limits_k z(k) \approx 13.41\\\max\limits_k z(k) \approx 6.39\times 10^{10} \end{cases}$$
+$$\begin{cases}\argmax\limits_k z(k) \approx 14.09\\\max\limits_k z(k) \approx 6.49\times 10^{10} \end{cases}$$
 
 \subsection{Solution to the second problem using Gradient Descent}
 \subsection{Solution to the second problem using other Optimizer}
